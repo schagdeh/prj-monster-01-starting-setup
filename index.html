@@ -38,13 +38,31 @@
       </section>
       <section id="controls" v-else>
         <button @click="attackMonster">ATTACK</button>
-        <button :disabled="mayUseSpecialAttack" @click="specialAttack">SPECIAL ATTACK</button>
+        <button :disabled="mayUseSpecialAttack" @click="specialAttack">
+          SPECIAL ATTACK
+        </button>
         <button @click="healPlayer">HEAL</button>
         <button @click="surrender">SURRENDER</button>
       </section>
       <section id="log" class="container">
         <h2>Battle Log</h2>
-        <ul></ul>
+        <ul>
+          <li v-for="logMessage in logMessages">
+            <span
+              :class="{'log--player': logMessage.actionBy === 'Player', 'log--monster': logMessage.actionBy === 'Monster'}"
+            >
+              {{logMessage.actionBy === 'Player' ? 'Player' : 'Monster'}}
+            </span>
+            <span v-if="logMessage.actionType === 'Heal'">
+              Heals himself for
+              <span class="log--heal"> {{ logMessage.actionValue }} </span>
+            </span>
+            <span v-else>
+              Attacks and deals
+              <span class="log--damage"> {{ logMessage.actionValue }} </span>
+            </span>
+          </li>
+        </ul>
       </section>
     </div>
   </body>
